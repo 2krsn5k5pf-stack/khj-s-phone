@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>캐릭터 휴대폰</title>
+<style>
+:root{--bg:#dcdce2;box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141416}}
+:root[data-theme=dark]{--bg:#141416}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;overscroll-behavior:none}
+#ph{position:relative;width:100%;max-width:430px;height:100%;margin:0 auto;overflow:hidden;background:#000;color:#fff}
+#sb{position:absolute;top:0;left:0;right:0;z-index:20;height:calc(env(safe-area-inset-top,0px) + 44px);padding:calc(env(safe-area-inset-top,0px) + 14px) 28px 0;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;pointer-events:none}
+#sb span{display:flex;gap:6px;align-items:center}
+.bt{background:#fff;color:#000;border-radius:6px;padding:0 5px;font-size:12px;font-weight:700}
+#ph[data-t=d] #sb{color:#000}#ph[data-t=d] .bt{background:#000;color:#fff}
+#hb{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:3px;background:#fff;z-index:20}
+#ph[data-t=d] #hb{background:#000}#ph[data-s=lock] #hb{display:none}
+#hb:before{content:"";position:absolute;inset:-14px -20px}
+.scr{position:absolute;inset:0;display:none;flex-direction:column;padding-top:calc(env(safe-area-inset-top,0px) + 44px);overflow:hidden}
+.scr.on{display:flex}
+.body{flex:1;overflow-y:auto;padding-bottom:40px}
+.w1{background:var(--wall,linear-gradient(160deg,#2b2d5b,#8a5aa8 55%,#f0a4a0)) center/cover}
+#lock{align-items:center;text-align:center}
+#lock .d{margin-top:52px;font-size:20px;font-weight:600;opacity:.92}
+#lock .t{font-size:110px;font-weight:700;line-height:1.05;letter-spacing:-2px;background:linear-gradient(90deg,#fff,#bfe1f0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nt{margin-top:auto;width:calc(100% - 28px);border-radius:30px;padding:14px 18px;background:rgba(120,95,85,.55);backdrop-filter:blur(20px);display:flex;gap:12px;align-items:center;text-align:left}
+.nt .av2{width:46px;height:46px;font-size:15px}.nt div:nth-child(2){flex:1}.nt b{font-size:17px}.nt p{font-size:16px;margin-top:2px}.nt small{align-self:flex-start;opacity:.7}
+.lb{display:flex;justify-content:space-between;width:100%;padding:22px 40px 44px}
+.lb i{width:50px;height:50px;border-radius:50%;background:rgba(60,60,60,.5);backdrop-filter:blur(14px);display:grid;place-items:center}
+#home{padding-left:20px;padding-right:20px}
+.wg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+.wd{height:150px;border-radius:26px;padding:14px;text-align:left;font-size:13px}
+.wd b{font-size:42px;font-weight:300;display:block;margin:2px 0 8px}
+.wl{text-align:center;font-size:12px;margin-top:6px}
+.pl2{display:inline-block;background:rgba(255,255,255,.3);border-radius:14px;padding:5px 12px;margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;margin-top:16px}
+.ap{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11.5px}
+.ic{width:60px;height:60px;border-radius:14px;display:grid;place-items:center;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.35)}
+.ic i{font-style:normal;color:#e33;font-size:10px;font-weight:700;display:block;line-height:1}
+.ic em{font-style:normal;color:#111;font-size:30px;font-weight:300;line-height:1.05}
+.bg{position:absolute;top:-7px;left:50%;margin-left:12px;background:#ff3b30;border-radius:12px;min-width:24px;padding:2px 7px;font-size:13px;font-weight:600;text-align:center}
+.sp{margin:auto auto 14px;background:rgba(255,255,255,.28);backdrop-filter:blur(14px);border-radius:20px;padding:6px 20px;font-size:13px}
+.dock{margin:0 -8px 26px;padding:14px;border-radius:32px;background:rgba(255,255,255,.22);backdrop-filter:blur(16px);display:grid;grid-template-columns:repeat(4,1fr)}
+.dock .ap span{display:none}
+.lt{background:#fff;color:#111}
+.hd{padding:6px 18px 8px;font-size:30px;font-weight:800}
+.hd small{display:block;font-size:13px;font-weight:400;color:#8a8a8e}
+.mh{display:flex;justify-content:space-between;align-items:center;padding:6px 16px 12px}
+.mh b{font-size:19px}
+.pl{background:#fff;border:1px solid #ddd;border-radius:24px;padding:11px 20px;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.mr{position:relative;display:flex;gap:14px;padding:0 14px 0 16px}
+.ud{position:absolute;left:5px;top:34px;width:10px;height:10px;border-radius:50%;background:#3b82f6}
+.mr .av2{margin-top:12px}
+.mx{flex:1;min-width:0;border-bottom:1px solid #e5e5ea;padding:14px 0}
+.l1{display:flex;justify-content:space-between;font-size:17px}
+.l1 span{font-size:14px;color:#8e8e93}
+.mx p{font-size:15px;color:#8e8e93;margin-top:3px}
+.av2{width:46px;height:46px;border-radius:50%;background:linear-gradient(#b5a9e6,#7c80c2);display:grid;place-items:center;font-size:15px;color:#fff;flex:none}
+.row{display:flex;gap:12px;padding:10px 18px;align-items:center}
+.av{width:46px;height:46px;border-radius:50%;background:#d8d8de;display:grid;place-items:center;font-weight:700;color:#555;flex:none}
+.rt{flex:1;min-width:0}.rt b{font-size:15.5px}
+.rt p{font-size:13.5px;color:#8a8a8e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.tm{font-size:11.5px;color:#aaa;text-align:right}
+.bd{display:inline-block;margin-top:4px;background:#ff3b30;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;font-weight:700}
+#chat .top{display:flex;align-items:center;gap:10px;padding:6px 14px 10px;font-weight:700;font-size:17px}
+#chat .top i{font-style:normal;font-size:30px;line-height:1;padding:0 6px}
+#chat.k{background:#b2c7da;color:#111}#chat.m{background:#fff;color:#111}
+#chat .ms{flex:1;overflow-y:auto;padding:8px 14px 60px;display:flex;flex-direction:column;gap:7px}
+.b{max-width:72%;padding:9px 13px;border-radius:18px;font-size:15px;line-height:1.4;word-break:keep-all}
+.k .b.o{align-self:flex-start;background:#fff;border-radius:4px 18px 18px 18px}
+.k .b.me{align-self:flex-end;background:#fee500;border-radius:18px 4px 18px 18px}
+.m .b.o{align-self:flex-start;background:#e9e9eb}
+.m .b.me{align-self:flex-end;background:#0a84ff;color:#fff}
+#pop{background:#fff5fa;color:#222}
+.pp{margin:8px 16px;display:flex;gap:10px}
+.pp .av{background:linear-gradient(135deg,#ff8fc0,#b69cff);color:#fff}
+.pp .bb{background:#fff;border:1px solid #ffd3e6;border-radius:4px 18px 18px 18px;padding:11px 14px;font-size:14.5px;line-height:1.45}
+.pp small{display:block;font-size:11px;color:#b38;margin-top:4px}
+.gl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.gl div{aspect-ratio:1;display:grid;place-items:center;font-size:12px;color:rgba(255,255,255,.85);overflow:hidden}
+.rc.red b{color:#ff3b30}.rc small{color:#8a8a8e;font-size:12.5px}
+#mus{background:linear-gradient(180deg,#5a1f3a,#14080e);align-items:center}
+.art{margin-top:24px;width:78%;aspect-ratio:1;border-radius:14px;background:linear-gradient(135deg,#ff6a88,#6a5acd);box-shadow:0 20px 50px rgba(0,0,0,.5);display:grid;place-items:center;font-size:64px}
+.mt{width:78%;margin-top:26px}.mt b{font-size:20px}.mt p{color:#e8a9c0;margin-top:3px}
+.pb{height:4px;border-radius:2px;background:rgba(255,255,255,.25);margin-top:20px}
+.pb i{display:block;width:38%;height:100%;border-radius:2px;background:#fff}
+.ct{display:flex;gap:44px;font-size:34px;margin-top:26px}
+</style></head><body>
+<div id="ph" data-t="l" data-s="lock">
+<div id="sb"><b id="sl"></b><span><svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect y="8" width="3" height="4" rx=".6"/><rect x="5" y="5.5" width="3" height="6.5" rx=".6"/><rect x="10" y="3" width="3" height="9" rx=".6"/><rect x="15" width="3" height="12" rx=".6"/></svg><svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 4.2a10 10 0 0114 0M4 7a6.5 6.5 0 019 0"/><circle cx="8.5" cy="10" r="1" fill="currentColor"/></svg><b class="bt" id="bt"></b></span></div>
+<div class="scr w1 on" id="lock" data-t="l" onclick="go('home')"><div class="d" id="dt"></div><div class="t" id="tt"></div><div class="nt" id="nt"></div><div class="lb"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M8 2h8v4l-2 3v13h-4V9L8 6z"/></svg></i><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2.5" y="6.5" width="19" height="14" rx="3"/><circle cx="12" cy="13.5" r="4"/></svg></i></div></div>
+<div class="scr w1" id="home" data-t="l"><div class="wg" id="wg"></div><div class="grid" id="hg"></div><div class="sp">🔍 검색</div><div class="dock" id="dk"></div></div>
+<div class="scr lt" id="kk" data-t="d"></div>
+<div class="scr lt" id="msg" data-t="d"></div>
+<div class="scr" id="chat" data-t="d"></div>
+<div class="scr lt" id="gal" data-t="d"><div class="hd">사진<small id="gc"></small></div><div class="body"><div class="gl" id="gl"></div></div></div>
+<div class="scr" id="pop" data-t="d"><div class="hd" style="color:#e0407f">POPOP<small>아이돌 버블</small></div><div class="body" id="pb"></div></div>
+<div class="scr lt" id="tel" data-t="d"><div class="hd">최근 기록</div><div class="body" id="tb"></div></div>
+<div class="scr" id="mus" data-t="l"><div class="art">🎵</div><div class="mt"><b id="mn"></b><p id="ma"></p><div class="pb"><i></i></div></div><div class="ct"><span>⏮</span><span>⏸</span><span>⏭</span></div></div>
+<div id="hb" onclick="go('home')"></div>
+</div>
+<script>
+/* ▼ 여기만 바꾸면 돼요 ▼ */
+const C={
+ name:"캐릭터", idol:"아이돌 이름",
+ wall:"", /* 배경사진 경로 예: "img/wall.jpg" (비우면 기본 배경) */
+ city:"서울시", temp:"18°", wx:"내일 비 올 확률 90%",
+ kk:[
+  {n:"엄마",t:"오후 3:12",c:2,m:[[0,"밥 먹었어?"],[1,"응 먹었어"],[0,"일찍 들어와"]]},
+  {n:"친구",t:"어제",c:0,m:[[0,"내일 뭐해?"],[1,"아직 몰라"]]}],
+ msg:[
+  {n:"정이안",t:"지금",c:1,m:[[0,"담에는 봐줄게"]]},
+  {n:"매니저",t:"어제",c:0,m:[[0,"오늘 스케줄 확인해줘"],[1,"확인했어요"]]}],
+ pop:[["오늘도 고마워요, 다들 밥 잘 챙겨 먹어요","오후 8:21"],["연습 끝났어요! 보고 싶었어요","오후 10:05"]],
+ tel:[["엄마","수신 · 3분","오후 3:10"],["친구","부재중","어제"],["매니저","발신 · 1분","어제"]],
+ mus:["노래 제목","가수 이름"], gal:12,
+ photos:[] /* 사진 파일 경로 예: ["img/1.jpg","img/2.jpg"] */
+};
+/* ▲ 여기까지 ▲ */
+const $=s=>document.getElementById(s),ph=$('ph');let clk='';
+if(C.wall)document.documentElement.style.setProperty('--wall',`url("${C.wall}")`);
+function go(id){document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id==id));ph.dataset.t=$(id).dataset.t;ph.dataset.s=id;$('sl').textContent=id=='lock'?'SKT':clk}
+const S=(b,g)=>`<div class="ic" style="background:${b}"><svg viewBox="0 0 24 24" width="34" height="34">${g}</svg></div>`;
+const G='linear-gradient(#6fe27f,#2fbf4a)',d0=new Date();
+const pet=[...Array(8)].map((_,i)=>`<ellipse cx="12" cy="7" rx="3" ry="4.6" fill="hsl(${i*45+5} 85% 58%)" opacity=".7" transform="rotate(${i*45} 12 12)"/>`).join('');
+const IC={
+ tel:S(G,'<path fill="#fff" d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/>'),
+ kk:S('#fee500','<ellipse cx="12" cy="11" rx="9" ry="7.2" fill="#3b1e1e"/><path d="M6 18l1-3.5 3 2z" fill="#3b1e1e"/>'),
+ msg:S(G,'<ellipse cx="12" cy="11" rx="9" ry="7.3" fill="#fff"/><path d="M5 20c2-.8 3-2 3.4-3.6l2.4 1z" fill="#fff"/>'),
+ mus:S('linear-gradient(#ff6b7d,#e8213f)','<path d="M9 17V6l10-2v11" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="7" cy="17.5" r="2.8" fill="#fff"/><circle cx="17" cy="15.5" r="2.8" fill="#fff"/>'),
+ gal:S('#fff',pet),
+ pop:S('linear-gradient(#ff8fc0,#ff4f93)','<circle cx="9" cy="10" r="5" fill="#fff"/><circle cx="16" cy="14" r="4" fill="#fff" opacity=".8"/><circle cx="10" cy="17" r="2" fill="#fff" opacity=".6"/>'),
+ cal:`<div class="ic" style="background:#fff;align-content:center"><i>${'일월화수목금토'[d0.getDay()]}요일</i><em>${d0.getDate()}</em></div>`,
+ cam:S('linear-gradient(#d9d9de,#9d9da3)','<circle cx="12" cy="12" r="8" fill="#222"/><circle cx="12" cy="12" r="4.5" fill="#3d5a9b"/>'),
+ memo:'<div class="ic" style="background:linear-gradient(#f7d54a 24%,#fff 24%)"></div>',
+ set:S('linear-gradient(#aaaab1,#6d6d73)','<circle cx="12" cy="12" r="7.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-dasharray="2.6 1.7"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="2"/>')
+};
+const B=C.msg.reduce((a,c)=>a+c.c,0);
+const ap=(k,l,t)=>`<div class="ap" ${t?`onclick="go('${t}')"`:''}>${IC[k]}${k=='msg'&&B?`<b class="bg">${B}</b>`:''}<span>${l}</span></div>`;
+$('wg').innerHTML=`<div><div class="wd" style="background:#2f3558"><span>${C.city} ▾</span><b>${C.temp}</b>☂<br>${C.wx}</div><p class="wl">날씨</p></div><div><div class="wd" style="background:linear-gradient(#f2546a,#e8485c)"><span>♫</span><br><br><b style="font-size:15px;font-weight:700;margin:6px 0 0">${C.mus[0]}</b>${C.mus[1]}<br><span class="pl2">▶ 재생</span></div><p class="wl">음악</p></div>`;
+$('hg').innerHTML=ap('cal','캘린더')+ap('gal','사진','gal')+ap('cam','카메라')+ap('pop','팝팝','pop')+ap('memo','메모')+ap('set','설정');
+$('dk').innerHTML=ap('tel','전화','tel')+ap('kk','카카오톡','kk')+ap('msg','메시지','msg')+ap('mus','Music','mus');
+function list(id,title,key){$(id).innerHTML=`<div class="hd">${title}</div><div class="body">`+C[key].map((c,i)=>`<div class="row" onclick="room('${key}',${i})"><div class="av">${c.n[0]}</div><div class="rt"><b>${c.n}</b><p>${c.m[c.m.length-1][1]}</p></div><div class="tm">${c.t}${c.c?`<br><span class="bd">${c.c}</span>`:''}</div></div>`).join('')+`</div>`}
+list('kk','카카오톡','kk');
+$('msg').innerHTML=`<div class="mh"><span class="pl">편집</span><b>메시지</b><span class="pl">☰</span></div><div class="body">`+C.msg.map((c,i)=>`<div class="mr" onclick="room('msg',${i})">${c.c?'<i class="ud"></i>':''}<div class="av2">${c.n.slice(-2)}</div><div class="mx"><div class="l1"><b>${c.n}</b><span>${c.t} ›</span></div><p>${c.m[c.m.length-1][1]}</p></div></div>`).join('')+`</div>`;
+const n0=C.msg[0];$('nt').innerHTML=`<div class="av2">${n0.n.slice(-2)}</div><div><b>${n0.n}</b><p>${n0.m[n0.m.length-1][1]}</p></div><small>지금</small>`;
+function room(k,i){const c=C[k][i],e=$('chat');e.className='scr on '+(k=='kk'?'k':'m');e.dataset.t='d';e.innerHTML=`<div class="top"><i onclick="go('${k}')">‹</i>${c.n}</div><div class="ms">`+c.m.map(x=>`<div class="b ${x[0]?'me':'o'}">${x[1]}</div>`).join('')+`</div>`;go('chat')}
+const N=C.photos.length||C.gal;$('gc').textContent=N+'장';
+$('gl').innerHTML=Array.from({length:N},(_,i)=>C.photos[i]?`<div><img src="${C.photos[i]}" style="width:100%;height:100%;object-fit:cover"></div>`:`<div style="background:linear-gradient(135deg,hsl(${i*37%360} 60% 70%),hsl(${(i*37+50)%360} 55% 55%))">${i+1}</div>`).join('');
+$('pb').innerHTML=C.pop.map(p=>`<div class="pp"><div class="av">${C.idol[0]}</div><div><div class="bb">${p[0]}</div><small>${C.idol} · ${p[1]}</small></div></div>`).join('');
+$('tb').innerHTML=C.tel.map(r=>`<div class="row rc ${r[1]=='부재중'?'red':''}"><div class="rt"><b>${r[0]}</b><br><small>${r[1]}</small></div><div class="tm">${r[2]}</div></div>`).join('');
+$('mn').textContent=C.mus[0];$('ma').textContent=C.mus[1];$('bt').textContent='85';
+function tick(){const d=new Date(),h=d.getHours(),m=String(d.getMinutes()).padStart(2,'0');clk=h+':'+m;$('tt').textContent=clk;$('dt').textContent=(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+'일월화수목금토'[d.getDay()]+')';if(ph.dataset.s!='lock')$('sl').textContent=clk}
+tick();$('sl').textContent='SKT';setInterval(tick,20000);
+</script></body></html>
